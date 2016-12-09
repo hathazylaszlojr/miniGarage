@@ -17,9 +17,9 @@ public class IdeaRepository {
     @Autowired
     private SessionFactory sessionFactory;
 
-    public List<Idea> getAllIdeasForChallenge(String challengeName) {
+    public List<Idea> getAllIdeasForChallenge(Integer challengeId) {
         Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Idea.class);
-        criteria.add(Restrictions.eq("challengeName", challengeName));
+        criteria.add(Restrictions.eq("challengeId", challengeId));
 //        criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
         List<Idea> result = criteria.list();
         return result;

@@ -25,6 +25,7 @@ public class ChallengeRepository {
 
     public List<Challenge> listAll() {
         Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Challenge.class);
+        criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
         return criteria.list();
     }
 
