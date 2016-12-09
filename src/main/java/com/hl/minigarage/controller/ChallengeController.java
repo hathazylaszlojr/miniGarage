@@ -7,6 +7,8 @@ import com.hl.minigarage.service.IdeaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/v1/challenge")
 public class ChallengeController {
@@ -23,12 +25,12 @@ public class ChallengeController {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public String getAllChallengesForCurrentUser() {
+    public List<Challenge> getAllChallengesForCurrentUser() {
         return challengeService.getAllChallengesForCurrentUser();
     }
 
     @RequestMapping(value = "/{challenge_name}/idea", method = RequestMethod.GET)
-    public String getAllIdeasForChallenge(@PathVariable("challenge_name") String challengeName) {
+    public List<Idea> getAllIdeasForChallenge(@PathVariable("challenge_name") String challengeName) {
         return challengeService.retrieveAllIdeasForChallenge(challengeName);
     }
 
@@ -37,8 +39,7 @@ public class ChallengeController {
                                    @RequestBody Idea idea) {
 
         if (challengeService.isValidChallengeName(challengeName)) {
-            idea.setChallengeName(challengeName);
-            ideaService.addIdea(idea);
+            challengeService.addIdeaToChallenge(challengeName, idea);
         } else {
             throw new RuntimeException("Invalid challenge name! Please specify a existing challenge name!"); //FIXME: Add a proper exception
         }
