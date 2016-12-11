@@ -19,7 +19,7 @@ public class IdeaService {
     ChallengeRepository challengeRepository;
 
     public List<Idea> retrieveAllIdeasForChallenge(String challengeName) {
-        Challenge challenge = challengeRepository.retrieveChallengeWithName(challengeName);
+        Challenge challenge = challengeRepository.retrieveChallengeWithShortName(challengeName);
         return ideaRepository.getAllIdeasForChallenge(challenge.getChallengeId());
     }
 

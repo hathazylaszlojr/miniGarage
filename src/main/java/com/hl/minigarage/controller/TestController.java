@@ -18,12 +18,11 @@ public class TestController {
     @RequestMapping(value = "/add-challenge", method = RequestMethod.GET)
     public String populate() {
         Challenge challenge = new Challenge();
-        challenge.setChallengeName("My_new_challenge_2");
-//        challenge.setChallengeId(1);
+        challenge.setChallengeTitle("My_new_challenge_2");
         challenge.setDateAdded(Instant.now());
         challenge.setDescription("My new challenge");
         Idea idea = new Idea();
-        idea.setIdeaName("My newest idea!");
+        idea.setIdeaTitle("My newest idea!");
         idea.setDateAdded(Instant.now());
         challenge.addIdea(idea);
         challengeService.addChallenge(challenge);

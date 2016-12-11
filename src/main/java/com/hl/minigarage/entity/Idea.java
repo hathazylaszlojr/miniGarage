@@ -1,5 +1,7 @@
 package com.hl.minigarage.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.time.Instant;
@@ -16,15 +18,14 @@ public class Idea {
     @Column(name = "CHALLENGE_ID_FK")
     private Integer challengeId;
 
-    @Column(name = "NAME")
-    private String ideaName;
+    @Column(name = "TITLE")
+    private String ideaTitle;
 
     @Column(name = "DESCRIPTION")
     private String description;
 
     @Column(name = "DATE_ADDED")
     private Timestamp timestamp;
-
 
     public Integer getIdeaId() {
         return ideaId;
@@ -42,20 +43,22 @@ public class Idea {
         this.timestamp = timestamp;
     }
 
+    @JsonIgnore
     public Instant getDateAdded() {
         return timestamp.toInstant();
     }
 
+    @JsonIgnore
     public void setDateAdded(Instant dateAdded) {
         this.timestamp = Timestamp.from(dateAdded);
     }
 
-    public String getIdeaName() {
-        return ideaName;
+    public String getIdeaTitle() {
+        return ideaTitle;
     }
 
-    public void setIdeaName(String ideaName) {
-        this.ideaName = ideaName;
+    public void setIdeaTitle(String ideaTitle) {
+        this.ideaTitle = ideaTitle;
     }
 
     public Integer getChallengeId() {

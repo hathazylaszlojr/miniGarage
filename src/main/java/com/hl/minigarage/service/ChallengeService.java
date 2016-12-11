@@ -1,5 +1,6 @@
 package com.hl.minigarage.service;
 
+import com.hl.minigarage.Utils;
 import com.hl.minigarage.entity.Challenge;
 import com.hl.minigarage.entity.Idea;
 import com.hl.minigarage.repository.ChallengeRepository;
@@ -16,9 +17,12 @@ public class ChallengeService {
 
     @Autowired private ChallengeRepository challengeRepository;
 
-    public void addChallenge(Challenge challenge) {
+    public Challenge addChallenge(Challenge challenge) {
         challenge.setDateAdded(Instant.now());
-        challengeRepository.save(challenge);
+        if (challenge.getChallengeShortName() == null) {
+            challenge.setChallengeShortName(Utils.generateShortName(challenge.getChallengeTitle()));
+        }
+        return challengeRepository.save(challenge);
     }
 
     public List<Challenge> getAllChallengesForCurrentUser() {
@@ -32,13 +36,14 @@ public class ChallengeService {
     }
 
     public boolean isValidChallengeName(String challengeName) {
-        return challengeRepository.retrieveChallengeWithName(challengeName) != null;
+        return challengeRepository.retrieveChallengeWithShortName(challengeName) != null;
     }
 
-    public void addIdeaToChallenge(String challengeName, Idea idea) {
-        Challenge challenge = challengeRepository.retrieveChallengeWithName(challengeName);
+    public Idea addIdeaToChallenge(String challengeShortName, Idea idea) {
+        Challenge challenge = challengeRepository.retrieveChallengeWithShortName(challengeShortName);
         idea.setDateAdded(Instant.now());
         challenge.addIdea(idea);
         challengeRepository.save(challenge);
+        return idea; //FIXME: should return the new/updated idea
     }
 }

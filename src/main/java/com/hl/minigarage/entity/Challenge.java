@@ -1,5 +1,7 @@
 package com.hl.minigarage.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.time.Instant;
@@ -21,8 +23,11 @@ public class Challenge {
     @Column(name = "DESCRIPTION")
     private String description;
 
-    @Column(name = "NAME")
-    private String challengeName;
+    @Column(name = "TITLE")
+    private String challengeTitle;
+
+    @Column(name = "SHORT_NAME")
+    private String challengeShortName;
 
     @OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
     @JoinColumn(name = "CHALLENGE_ID_FK")
@@ -44,10 +49,12 @@ public class Challenge {
         this.timestamp = timestamp;
     }
 
+    @JsonIgnore
     public Instant getDateAdded() {
         return timestamp.toInstant();
     }
 
+    @JsonIgnore
     public void setDateAdded(Instant dateAdded) {
         timestamp = Timestamp.from(dateAdded);
     }
@@ -60,12 +67,12 @@ public class Challenge {
         this.description = description;
     }
 
-    public String getChallengeName() {
-        return challengeName;
+    public String getChallengeTitle() {
+        return challengeTitle;
     }
 
-    public void setChallengeName(String challengeName) {
-        this.challengeName = challengeName;
+    public void setChallengeTitle(String challengeTitle) {
+        this.challengeTitle = challengeTitle;
     }
 
     public Set<Idea> getIdeas() {
@@ -81,5 +88,34 @@ public class Challenge {
             ideas = new HashSet<>();
         }
         ideas.add(idea);
+    }
+
+    public String getChallengeShortName() {
+        return challengeShortName;
+    }
+
+    public void setChallengeShortName(String challengeShortName) {
+        this.challengeShortName = challengeShortName;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) return false;
+
+        Challenge other = (Challenge) obj;
+
+        if (this.getChallengeId() != 0 && other.getChallengeId() != 0 && !this.getChallengeId().equals(other.getChallengeId())) {
+            return false;
+        }
+
+        if (this.getChallengeTitle() == null || other.getChallengeTitle() == null) {
+            return false;
+        }
+
+        if (!this.getChallengeTitle().equals(other.getChallengeTitle())) {
+            return false;
+        }
+
+        return true;
     }
 }

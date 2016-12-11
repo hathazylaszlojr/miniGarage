@@ -10,3 +10,13 @@ db:
     aes:
         key: 547ce2174fdd9c55d7acd574863a3179
     path: /home/laszlo/tmp2/db
+---
+spring:
+  profiles: test
+db:
+    driver: hsqldb
+    type: mem
+    endpoint: jdbc:${db.driver}:${db.type}:${db.path}
+    path: mymemdb
+server:
+    port: 8080

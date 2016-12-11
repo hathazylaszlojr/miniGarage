@@ -20,8 +20,8 @@ public class ChallengeController {
     private IdeaService ideaService;
 
     @RequestMapping(method = RequestMethod.POST)
-    public void createChallenge(@RequestBody Challenge challenge) {
-        challengeService.addChallenge(challenge);
+    public Challenge createChallenge(@RequestBody Challenge challenge) {
+        return challengeService.addChallenge(challenge);
     }
 
     @RequestMapping(method = RequestMethod.GET)
@@ -35,11 +35,11 @@ public class ChallengeController {
     }
 
     @RequestMapping(value = "/{challenge_name}/idea", method = RequestMethod.POST)
-    public void addIdeaToChallenge(@PathVariable("challenge_name") String challengeName,
+    public Idea addIdeaToChallenge(@PathVariable("challenge_name") String challengeName,
                                    @RequestBody Idea idea) {
 
         if (challengeService.isValidChallengeName(challengeName)) {
-            challengeService.addIdeaToChallenge(challengeName, idea);
+            return challengeService.addIdeaToChallenge(challengeName, idea);
         } else {
             throw new RuntimeException("Invalid challenge name! Please specify a existing challenge name!"); //FIXME: Add a proper exception
         }

@@ -18,9 +18,9 @@ public class ChallengeRepository {
     @Autowired
     private SessionFactory sessionFactory;
 
-    public long save(Challenge challenge) {
+    public Challenge save(Challenge challenge) {
         sessionFactory.getCurrentSession().saveOrUpdate(challenge);
-        return challenge.getChallengeId();
+        return challenge;
     }
 
     public List<Challenge> listAll() {
@@ -29,9 +29,9 @@ public class ChallengeRepository {
         return criteria.list();
     }
 
-    public Challenge retrieveChallengeWithName(String challengeName) {
+    public Challenge retrieveChallengeWithShortName(String challengeShortName) {
         Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Challenge.class);
-        criteria.add(Restrictions.eq("challengeName", challengeName));
+        criteria.add(Restrictions.eq("challengeShortName", challengeShortName));
         return (Challenge) criteria.uniqueResult();
     }
 }
